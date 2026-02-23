@@ -1,0 +1,118 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ayurveda-leaf: #2d5a27;
+  --color-ayurveda-sand: #d4c391;
+  --color-ayurveda-brown: #4a3728;
+  --color-ayurveda-cream: #faf9f6;
+  --color-ayurveda-earth: #8b735b;
+  --color-ayurveda-sage: #7d8e74;
+  --color-neon-green: #39ff14;
+
+  --font-display: "Outfit", "Inter", sans-serif;
+
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --radius-3xl: 2rem;
+
+  --shadow-premium:
+    0 10px 25px -5px rgba(0, 0, 0, 0.1),
+    0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  --shadow-soft: 0 4px 20px -2px
+    rgba(0, 0, 0, 0.05);
+  --shadow-glow: 0 0 20px rgba(45, 90, 39, 0.2);
+
+  --animate-mesh: mesh 15s ease infinite;
+}
+
+@keyframes mesh {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@utility glass-card {
+  @apply bg-white/60 backdrop-blur-xl border border-white/30 shadow-soft;
+}
+
+@utility glass-dark {
+  @apply bg-ayurveda-brown/10 backdrop-blur-md border border-white/10;
+}
+
+@layer base {
+  body {
+    @apply bg-ayurveda-cream text-ayurveda-brown antialiased;
+    font-family: "Inter", sans-serif;
+  }
+
+  button,
+  a {
+    @apply cursor-pointer;
+  }
+}
+
+@layer components {
+  .neo-mesh {
+    background: linear-gradient(
+      -45deg,
+      #faf9f6,
+      #f3f1ea,
+      #fcf8ec,
+      #faf9f6
+    );
+    background-size: 400% 400%;
+    animation: var(--animate-mesh);
+  }
+
+  .floating-input {
+    @apply glass-card bg-white/80 rounded-2xl py-5 pl-6 pr-16 text-sm focus:outline-none focus:ring-2 focus:ring-ayurveda-leaf/30 transition-all shadow-premium hover:bg-white/90;
+  }
+
+  .btn-primary {
+    @apply bg-ayurveda-leaf text-white px-6 py-3 rounded-xl font-semibold transition-all hover:bg-ayurveda-leaf/90 active:scale-95 shadow-premium hover:shadow-glow;
+  }
+
+  .skeleton {
+    @apply bg-ayurveda-earth/5 animate-pulse rounded-xl;
+  }
+
+  .neo-glow-text {
+    text-shadow: 0 0 10px rgba(45, 90, 39, 0.2);
+  }
+
+  .message-tilt {
+    transition: transform 0.4s
+      cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  .message-tilt:hover {
+    transform: translateY(-2px) scale(1.01);
+  }
+
+  .btn-secondary {
+    @apply bg-ayurveda-sand text-ayurveda-brown px-6 py-3 rounded-xl font-semibold transition-all hover:bg-ayurveda-sand/90 active:scale-95;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-3 rounded-xl border border-ayurveda-earth/20 bg-white focus:outline-none focus:ring-2 focus:ring-ayurveda-leaf/50 transition-all;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-ayurveda-earth/20 rounded-full;
+}
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-ayurveda-earth/40;
+}
