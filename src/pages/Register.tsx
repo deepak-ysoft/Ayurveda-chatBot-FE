@@ -67,8 +67,10 @@ const Register = () => {
     useState(false);
   const [showPassword, setShowPassword] =
     useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] =
-    useState(false);
+  const [
+    showConfirmPassword,
+    setShowConfirmPassword,
+  ] = useState(false);
 
   const {
     register,
@@ -82,25 +84,34 @@ const Register = () => {
     setIsLoading(true);
     setError(null);
     try {
-      await api.post("/auth/register", {
-        name: data.name,
-        email: data.email,
-        password: data.password,
-      });
-
-      // Backend returns { token, message }
-      const loginRes = await api.post(
-        "/auth/login",
-        {
-          email: data.email,
-          password: data.password,
-        },
-      );
+      const response =
+        await api.post<AuthResponse>(
+          "/auth/register",
+          {
+            name: data.name,
+            email: data.email,
+            password: data.password,
+          },
+        );
 
       const { token, userId, ...userData } =
-        loginRes.data;
-      setAuth({ id: userId, ...userData }, token);
-      navigate("/onboarding");
+        response.data;
+      setAuth(
+        {
+          id: userId,
+          name: userData.name,
+          email: userData.email,
+          isOnboardingCompleted:
+            userData.isOnboardingCompleted,
+        },
+        token,
+      );
+
+      if (userData.isOnboardingCompleted) {
+        navigate("/dashboard");
+      } else {
+        navigate("/onboarding");
+      }
     } catch (err) {
       const axiosError =
         err as AxiosError<string>;
@@ -192,21 +203,29 @@ const Register = () => {
               <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-ayurveda-earth/40" />
               <input
                 {...register("password")}
-                type={showPassword ? "text" : "password"}
+                type={
+                  showPassword ? "text" : (
+                    "password"
+                  )
+                }
                 className={`input-field pl-12 pr-12 ${errors.password ? "border-red-300" : ""}`}
                 placeholder="••••••••"
               />
               <button
                 type="button"
-                onClick={() => setShowPassword(!showPassword)}
+                onClick={() =>
+                  setShowPassword(!showPassword)
+                }
                 className="absolute right-4 top-1/2 -translate-y-1/2 text-ayurveda-earth/40 hover:text-ayurveda-leaf transition-colors"
-                title={showPassword ? "Hide password" : "Show password"}
+                title={
+                  showPassword ?
+                    "Hide password"
+                  : "Show password"
+                }
               >
-                {showPassword ? (
+                {showPassword ?
                   <EyeOff className="w-5 h-5" />
-                ) : (
-                  <Eye className="w-5 h-5" />
-                )}
+                : <Eye className="w-5 h-5" />}
               </button>
             </div>
             {errors.password && (
@@ -224,21 +243,31 @@ const Register = () => {
               <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-ayurveda-earth/40" />
               <input
                 {...register("confirmPassword")}
-                type={showConfirmPassword ? "text" : "password"}
+                type={
+                  showConfirmPassword ? "text" : (
+                    "password"
+                  )
+                }
                 className={`input-field pl-12 pr-12 ${errors.confirmPassword ? "border-red-300" : ""}`}
                 placeholder="••••••••"
               />
               <button
                 type="button"
-                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                onClick={() =>
+                  setShowConfirmPassword(
+                    !showConfirmPassword,
+                  )
+                }
                 className="absolute right-4 top-1/2 -translate-y-1/2 text-ayurveda-earth/40 hover:text-ayurveda-leaf transition-colors"
-                title={showConfirmPassword ? "Hide password" : "Show password"}
+                title={
+                  showConfirmPassword ?
+                    "Hide password"
+                  : "Show password"
+                }
               >
-                {showConfirmPassword ? (
+                {showConfirmPassword ?
                   <EyeOff className="w-5 h-5" />
-                ) : (
-                  <Eye className="w-5 h-5" />
-                )}
+                : <Eye className="w-5 h-5" />}
               </button>
             </div>
             {errors.confirmPassword && (

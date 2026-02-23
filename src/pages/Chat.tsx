@@ -703,12 +703,15 @@ const Chat = () => {
         </div>
 
         <div className="p-4 border-t border-ayurveda-earth/10">
-          <div className="glass-card p-4 rounded-2xl flex items-center gap-3">
-            <div className="w-10 h-10 bg-ayurveda-sand rounded-full flex items-center justify-center font-bold text-white shadow-soft">
+          <div
+            onClick={() => navigate("/profile")}
+            className="glass-card p-4 rounded-2xl flex items-center gap-3 cursor-pointer hover:bg-ayurveda-leaf/5 transition-all group"
+          >
+            <div className="w-10 h-10 bg-ayurveda-sand rounded-full flex items-center justify-center font-bold text-white shadow-soft group-hover:scale-110 transition-transform">
               {user?.name?.[0] || "U"}
             </div>
             <div className="flex-1 overflow-hidden">
-              <div className="text-sm font-bold text-ayurveda-brown truncate">
+              <div className="text-sm font-bold text-ayurveda-brown truncate group-hover:text-ayurveda-leaf transition-colors">
                 {user?.name}
               </div>
               <div className="text-[10px] text-ayurveda-earth truncate">

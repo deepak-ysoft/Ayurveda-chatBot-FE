@@ -22,6 +22,9 @@ export interface SocialLoginRequest {
 
 export interface SocialLoginResponse {
   token: string;
+  userId: string;
+  name: string;
+  email: string;
   isOnboardingCompleted: boolean;
 }
 

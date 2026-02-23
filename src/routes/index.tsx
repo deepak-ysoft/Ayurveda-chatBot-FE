@@ -1,32 +1,14 @@
-import {
-  createBrowserRouter,
-  Navigate,
-} from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import Landing from "../pages/Landing";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import Onboarding from "../pages/Onboarding";
 import Dashboard from "../pages/Dashboard";
 import Chat from "../pages/Chat";
-import {
-  useAuthStore,
-  type AuthState,
-} from "../store/authStore";
-
-const ProtectedRoute = ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
-  const isAuthenticated = useAuthStore(
-    (state: AuthState) => state.isAuthenticated,
-  );
-  return isAuthenticated ? children : (
-      <Navigate to="/login" />
-    );
-};
-
 import AuthHandler from "../components/AuthHandler";
+import ProtectedRoute from "../components/ProtectedRoute";
+import Profile from "../pages/Profile";
+import DashboardLayout from "../layouts/DashboardLayout";
 
 export const router = createBrowserRouter([
   {
@@ -56,9 +38,19 @@ export const router = createBrowserRouter([
         path: "/dashboard",
         element: (
           <ProtectedRoute>
-            <Dashboard />
+            <DashboardLayout />
           </ProtectedRoute>
         ),
+        children: [
+          {
+            index: true,
+            element: <Dashboard />,
+          },
+          {
+            path: "profile",
+            element: <Profile />,
+          },
+        ],
       },
       {
         path: "/chat",
